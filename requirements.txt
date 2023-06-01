@@ -1,0 +1,6 @@
+matplotlib==3.5.3
+pandas==1.1.5
+scikit_learn==1.0.2
+torch==1.13.1+cu116
+tqdm==4.65.0
+transformers==4.26.1

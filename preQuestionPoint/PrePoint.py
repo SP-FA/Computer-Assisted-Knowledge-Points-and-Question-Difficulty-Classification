@@ -12,26 +12,23 @@ from tqdm import tqdm
 
 
 def str2lst(i):
-    i = list(map(float, i.split(" ")))
-    if len(i) < 768:
-        for i in range(768 - len(i)):
-            i.append(0)
-    return i
+    return list(map(float, i.split(" ")))
 
 
 class PrePoint:
     def __init__(self,
-                 IDPath="ques_model/labelID.json",
-                 quesTypePath="ques_model/questionType.json",
-                 trainDataPath="ques_model/train.csv",
-                 modelDir="model_save",
+                 IDPath="../data/labelID.json",
+                 quesTypePath="../data/questionType.json",
+                 trainDataPath="../data/train.csv",
+                 modelDir="../model_save",
+                 catePath="../data/category.json",
                  device="cpu"):
         self.device = device
         train = pd.read_csv(trainDataPath)
         train_x = train["embed"].tolist()
         self.x = torch.tensor([str2lst(str(i)) for i in train_x]).to(device)
         self.y = torch.tensor(train["label_id"].tolist()).to(device)
-        # self.train_type = torch.load("ques_model/train_type.pt").to(device)
+        self.train_type = torch.tensor(train["question_type"].tolist()).to(device)
         self.prey = []
 
         self.IDdict = loadID(IDPath)
@@ -43,7 +40,7 @@ class PrePoint:
                                                        cache_dir=modelDir)
         self.model = BertModel.from_pretrained(pretrained_model_name_or_path="bert-base-chinese", cache_dir=modelDir)
 
-        dct = json.load(open("ques_model/category.json", 'r', encoding='utf-8'))
+        dct = json.load(open(catePath, 'r', encoding='utf-8'))
         self.root = TreeNode("root", 0)
         buildTree(self.root, dct, 1)
 

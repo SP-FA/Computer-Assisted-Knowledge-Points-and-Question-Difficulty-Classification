@@ -1,6 +1,4 @@
 import json
-import matplotlib.pyplot as plt
-import seaborn as sns
 
 
 TreeNodes = {}
@@ -40,23 +38,5 @@ def LCA(a, b):
     while a != b:
         a = a.father
         b = b.father
-
     return a
-
-
-if __name__ == "__main__":
-    dct = json.load(open("ques_model/category.json", 'r', encoding='utf-8'))
-    root = TreeNode("root", 0)
-    buildTree(root, dct, 1)
-    a = TreeNodes["数与式"]
-    b = TreeNodes["正负数的实际应用"]
-    lca = LCA(a, b)
-    print(lca.label)
-    coutn = [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0]
-    for i in TreeNodes.values():
-        coutn[i.depth] += 1
-
-    print(coutn)
-    sns.lineplot(data=coutn[1:7])
-    plt.savefig("tree.png")
 

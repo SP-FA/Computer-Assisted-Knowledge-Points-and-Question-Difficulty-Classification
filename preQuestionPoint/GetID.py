@@ -28,5 +28,3 @@ def loadID(path):
 if __name__ == "__main__":
     getID('../Question.csv', 'labelID.json' ,'point_type')
     ids = loadID('labelID.json')
-    print(ids)
-    print(type(ids))
